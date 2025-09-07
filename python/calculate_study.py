@@ -22,7 +22,7 @@ def findid(cursor, num, study, today):
         cursor.execute("INSERT INTO studytime (id, study, dates) VALUES (%s, %s, %s)", (num, study, str(today)))
 
 # MySQL 연결
-db = pymysql.connect(host='114.201.252.142', port=3306, user='allahuakbar', passwd='', db='testdg', charset='utf8')
+db = pymysql.connect(host='ip', port=3306, user='username', passwd='', db='testdg', charset='utf8')
 cursor = db.cursor()
 
 dic_yazatime = {}
