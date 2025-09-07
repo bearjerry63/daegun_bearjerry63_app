@@ -4,8 +4,8 @@ import xml.etree.ElementTree as ET # XML 파싱을 위한 라이브러리
 import pymysql
 def update():
     mydb = pymysql.connect( #mysql 연결
-    host="114.201.252.142",
-    user="allahuakbar",
+    host="ip",
+    user="username",
     database="testdg",
     charset='utf8')
 
