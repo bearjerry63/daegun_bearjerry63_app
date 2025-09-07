@@ -1,0 +1,62 @@
+import 'package:daegun/list/manager.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:mysql1/mysql1.dart';
+
+class Buses extends StatefulWidget {
+  @override
+  _MealState createState() => _MealState();
+}
+
+class _MealState extends State<Buses> {
+  Future<List<ResultRow>> fetchData() async {
+    final connSettings = ConnectionSettings(
+      host: '114.201.252.142',
+      user: 'allahuakbar',
+      db: 'testdg',
+    );
+
+    var conn = await MySqlConnection.connect(connSettings);
+    var results = await conn.query('SELECT stop, bus, time FROM buses');
+    await conn.close();
+
+    return results.toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      appBar: bar(),
+      body: FutureBuilder<List<ResultRow>>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            var data = snapshot.data!;
+            if (data.length < 7) {
+              return Text('Not enough data');
+            } else {
+              var Row = data;
+              return ListView(
+                children: [
+                  for (var i = 0; i < Row.length; i++)
+                    Container(child: OutLineText(text: '역: ${Row[i][0]}\n버스번호: ${Row[i][1]}\n시간: ${Row[i][2]}', color1: Colors.black, color2: Colors.white,fontSize: 21 ,),decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white,
+                          width: 3.0
+                      ),),)
+
+                ],
+              );
+            }
+          }
+        },
+      ),
+    );
+  }
+}
