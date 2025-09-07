@@ -11,8 +11,8 @@ class Meal extends StatefulWidget {
 class _MealState extends State<Meal> {
   Future<List<ResultRow>> fetchData() async {
     final connSettings = ConnectionSettings(
-      host: '114.201.252.142',
-      user: 'allahuakbar',
+      host: 'ip',
+      user: 'username',
       db: 'testdg',
     );
 
